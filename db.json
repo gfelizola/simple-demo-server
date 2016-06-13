@@ -1,0 +1,15 @@
+{
+    "brands": [
+        { "id": 1, "name": "Apple" },
+        { "id": 2, "name": "Samsung" },
+        { "id": 3, "name": "LG" },
+        { "id": 4, "name": "Motorola" }
+    ],
+    "products": [
+        { "id": 1, "name": "Iphone 6S", "brandId": 1 },
+        { "id": 2, "name": "Apple Watch", "brandId": 1 },
+        { "id": 3, "name": "Galaxy A", "brandId": 2 },
+        { "id": 4, "name": "Galaxy S7", "brandId": 2 },
+        { "id": 5, "name": "Moto X", "brandId": 4 }
+    ]
+}

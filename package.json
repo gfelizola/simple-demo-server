@@ -1,0 +1,22 @@
+{
+  "name": "demo-server",
+  "version": "1.0.0",
+  "description": "Simple API demo server - with json-server",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "json-server": "^0.8.14"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "json-server",
+    "api",
+    "demo"
+  ],
+  "author": "Gustavo Felizola",
+  "license": "ISC"
+}
