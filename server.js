@@ -9,7 +9,7 @@ server.use(middlewares)
 server.post('/auth', function (req, res) {
     console.log( req.params );
     // res.json({ error: "login inválido"});
-    res.json( req.params )
+    res.json( req.params );
 });
 
 server.get('/echo', function (req, res) {
