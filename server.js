@@ -5,16 +5,45 @@ var router      = jsonServer.router('db.json');
 var middlewares = jsonServer.defaults();
 var bodyParser  = require('body-parser');
 var session     = require('express-session');
-var hash        = require('./hash');
+var cors        = require('cors');
+var logger      = require('morgan');
 
-// JSON-Server defaults middlewares (logger, static, cors and no-cache)
-server.use(middlewares)
+server.use( middlewares ); // JSON-Server defaults middlewares (logger, static, cors and no-cache)
 
-// For parsing application/json
-server.use(bodyParser.json());
+// CORS route
+var corsOptions = {
+    exposedHeaders: ["X-AUTH-TOKEN"]
+}
+server.use( cors(corsOptions) );
+server.use( bodyParser.json() ); // For parsing application/json
+server.use( logger('dev') ); // API request logs
+server.use( session({
+    secret: 'huehuebr',
+    rolling: true
+}) ); // To save user in session
 
-// To save user in session
-server.use(session({secret: 'hue-hue-br'}));
+// Validate if is loggedin
+// server.use(function (req, res, next) {
+//     var url = req.url.toLowerCase();
+
+//     if ( url.indexOf('login') < 0 && url.indexOf('logout') < 0 ) {
+//         var token = req.session.token;
+//         var reqToken = req.headers['x-auth-token'];
+
+//         console.log("Request", url, reqToken, token, req.session );
+
+//         if ( ! reqToken ) {
+//             res.status(401).end("Invalid credentials");
+//         } else {
+//             res.set('X-AUTH-TOKEN', reqToken);
+//             next();
+//         }
+//     } else {
+//         next();
+//     }
+// })
+
+
 
 // Do login, and save token and user in session
 server.post('/login', function (req, res) {
@@ -22,9 +51,11 @@ server.post('/login', function (req, res) {
         user = b.username,
         pass = b.password;
 
+    // console.log("Login", user, pass, req.body);
+
     if ( user == 'teste' && pass == '123123' ) {
         var sess  = req.session,
-            token = hash(32);
+            token = Math.random().toString(36).slice(2);
 
         sess.user  = { username: "teste" };
         sess.token = token;
@@ -48,25 +79,9 @@ server.get('/logout', function (req, res) {
     });
 });
 
-// Validate if is loggedin
-server.use(function (req, res, next) {
-    var url = req.url.toLowerCase();
 
-    if ( url.indexOf('login') < 0 || url.indexOf('logout') < 0 ) {
-        var token = req.session.token;
-        var reqToken = req.headers['x-auth-token'];
+server.use(router);
 
-        if ( reqToken != token ) {
-            res.status(401).end("Invalid credentials");
-        }
-    }
-
-    // Continue to JSON Server router
-    next()
-})
-
-
-server.use(router)
-server.listen(3000, function () {
-  console.log('JSON Server is running. Goto http://localhost:3000');
+server.listen(3040, function () {
+  console.log('JSON Server is running. Goto http://localhost:3040');
 })
