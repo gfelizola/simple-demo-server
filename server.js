@@ -63,7 +63,7 @@ server.post('/login', function (req, res) {
         res.set('X-AUTH-TOKEN', token);
         res.json({ message: "Login successful" });
     } else {
-        res.status(401).json({ error: "Invalid credentials" });
+        res.status(401).json({ message: "Invalid credentials" });
     }
 
 });
